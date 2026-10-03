@@ -1,0 +1,608 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CodeMentor AI - Architecture, APIs & Interview Master Guide</title>
+    <style>
+        :root {
+            --primary: #4f46e5;
+            --primary-light: #6366f1;
+            --primary-dark: #3730a3;
+            --bg-dark: #0f172a;
+            --card-dark: #1e293b;
+            --text-dark: #f8fafc;
+            --text-muted: #94a3b8;
+            --border-dark: #334155;
+            --code-bg: #0b0f19;
+            --accent: #10b981;
+            --accent-purple: #8b5cf6;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            background-color: var(--bg-dark);
+            color: #e2e8f0;
+            line-height: 1.6;
+            padding: 40px 20px;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            background-color: var(--card-dark);
+            border-radius: 16px;
+            padding: 48px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.5);
+            border: 1px solid var(--border-dark);
+        }
+
+        .header {
+            border-bottom: 2px solid var(--border-dark);
+            padding-bottom: 28px;
+            margin-bottom: 36px;
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+
+        .badge {
+            display: inline-block;
+            padding: 4px 12px;
+            background: rgba(79, 70, 229, 0.2);
+            color: #818cf8;
+            border: 1px solid rgba(99, 102, 241, 0.4);
+            border-radius: 9999px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            margin-bottom: 8px;
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            color: #ffffff;
+            font-weight: 800;
+            letter-spacing: -0.025em;
+            margin-bottom: 10px;
+        }
+
+        .subtitle {
+            color: var(--text-muted);
+            font-size: 1.1rem;
+        }
+
+        .btn-print {
+            background: linear-gradient(135deg, var(--primary), var(--primary-light));
+            color: #ffffff;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 8px;
+            font-size: 0.95rem;
+            font-weight: 600;
+            cursor: pointer;
+            box-shadow: 0 4px 12px rgba(79, 70, 229, 0.4);
+            transition: all 0.2s ease;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .btn-print:hover {
+            opacity: 0.9;
+            transform: translateY(-1px);
+        }
+
+        h2 {
+            color: #ffffff;
+            font-size: 1.6rem;
+            margin-top: 36px;
+            margin-bottom: 16px;
+            padding-bottom: 8px;
+            border-bottom: 1px solid var(--border-dark);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        h3 {
+            color: #e0e7ff;
+            font-size: 1.25rem;
+            margin-top: 24px;
+            margin-bottom: 12px;
+        }
+
+        p, li {
+            color: #cbd5e1;
+            font-size: 1rem;
+            margin-bottom: 12px;
+        }
+
+        ul, ol {
+            padding-left: 24px;
+            margin-bottom: 16px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+            font-size: 0.95rem;
+        }
+
+        th, td {
+            padding: 12px 16px;
+            text-align: left;
+            border: 1px solid var(--border-dark);
+        }
+
+        th {
+            background-color: rgba(15, 23, 42, 0.8);
+            color: #ffffff;
+            font-weight: 600;
+        }
+
+        tr:nth-child(even) {
+            background-color: rgba(255, 255, 255, 0.02);
+        }
+
+        pre {
+            background-color: var(--code-bg);
+            border: 1px solid var(--border-dark);
+            border-radius: 8px;
+            padding: 16px;
+            overflow-x: auto;
+            margin: 16px 0;
+            font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+            font-size: 0.88rem;
+            color: #f1f5f9;
+            line-height: 1.5;
+        }
+
+        code {
+            background-color: rgba(255, 255, 255, 0.1);
+            color: #38bdf8;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-size: 0.88em;
+            font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+        }
+
+        pre code {
+            background-color: transparent;
+            padding: 0;
+            color: inherit;
+        }
+
+        .qa-box {
+            background-color: rgba(15, 23, 42, 0.6);
+            border: 1px solid var(--border-dark);
+            border-left: 4px solid var(--primary-light);
+            border-radius: 8px;
+            padding: 20px;
+            margin: 20px 0;
+        }
+
+        .qa-question {
+            font-weight: 700;
+            color: #ffffff;
+            font-size: 1.1rem;
+            margin-bottom: 10px;
+        }
+
+        .qa-answer {
+            color: #cbd5e1;
+        }
+
+        .tip-box {
+            background-color: rgba(16, 185, 129, 0.1);
+            border: 1px solid rgba(16, 185, 129, 0.3);
+            border-radius: 8px;
+            padding: 16px;
+            margin: 20px 0;
+            color: #a7f3d0;
+        }
+
+        @media print {
+            body {
+                background-color: #ffffff !important;
+                color: #0f172a !important;
+                padding: 0;
+            }
+            .container {
+                max-width: 100% !important;
+                background-color: #ffffff !important;
+                box-shadow: none !important;
+                border: none !important;
+                padding: 0 !important;
+            }
+            .btn-print {
+                display: none !important;
+            }
+            h1, h2, h3, .qa-question {
+                color: #0f172a !important;
+            }
+            p, li, .qa-answer {
+                color: #334155 !important;
+            }
+            table, th, td {
+                border-color: #cbd5e1 !important;
+                color: #0f172a !important;
+            }
+            th {
+                background-color: #f1f5f9 !important;
+            }
+            pre {
+                background-color: #f8fafc !important;
+                color: #0f172a !important;
+                border: 1px solid #e2e8f0 !important;
+                page-break-inside: avoid;
+            }
+            code {
+                background-color: #f1f5f9 !important;
+                color: #0284c7 !important;
+            }
+            .qa-box {
+                background-color: #f8fafc !important;
+                border-color: #e2e8f0 !important;
+                border-left-color: #4f46e5 !important;
+                page-break-inside: avoid;
+            }
+            .badge {
+                border-color: #4f46e5 !important;
+                color: #4f46e5 !important;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <div class="header">
+        <div>
+            <span class="badge">Full-Stack Project Documentation</span>
+            <h1>CodeMentor AI</h1>
+            <p class="subtitle">Complete Technical Architecture, REST/WebSocket APIs, Integration & Technical Interview Guide</p>
+        </div>
+        <button class="btn-print" onclick="window.print()">
+            <svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z"></path>
+            </svg>
+            Print / Save as PDF
+        </button>
+    </div>
+
+    <h2>1. Executive Summary & Project Purpose</h2>
+    <p>
+        <strong>CodeMentor AI</strong> is a full-stack enterprise platform developed using <strong>Spring Boot 3 (Java 21)</strong> and <strong>React 19 (Vite)</strong>. It provides intelligent automated code analysis, multi-developer real-time collaboration, interactive AI mock interviews, and personalized career roadmaps.
+    </p>
+
+    <h3>Key Capabilities</h3>
+    <ul>
+        <li><strong>Multi-Source Code Review</strong>: Review single snippets, upload multi-file ZIP projects, or directly connect GitHub repositories via Personal Access Tokens (PAT).</li>
+        <li><strong>Dual-LLM Engine</strong>: Sub-500ms snippet feedback powered by <strong>Groq (Llama 3.1 8B Instant)</strong> and whole-codebase reviews powered by <strong>Google Gemini 1.5 Pro</strong> (1M+ token context).</li>
+        <li><strong>Real-Time Collaboration</strong>: Interactive multiplayer coding rooms powered by <strong>Spring WebSocket + STOMP</strong>, Monaco Editor synchronization, and live chat with an automated <code>@AI</code> Mentor bot.</li>
+        <li><strong>Mock Interview Simulator</strong>: Dynamic MCQ and Coding technical question generation with automated evaluation.</li>
+        <li><strong>Adaptive Skill Roadmaps</strong>: Milestone learning roadmaps automatically computed from users' historical code review scores.</li>
+        <li><strong>Enterprise Security</strong>: Stateless JWT authentication, role-based authorization (USER/ADMIN), and BCrypt hashing.</li>
+    </ul>
+
+    <h2>2. Technology Stack & Architectural Justification</h2>
+    <table>
+        <thead>
+            <tr>
+                <th>Tier</th>
+                <th>Technology</th>
+                <th>Version</th>
+                <th>Core Purpose & Justification</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>Backend Language</td>
+                <td>Java (LTS)</td>
+                <td>21</td>
+                <td>Virtual Threads readiness, modern Records, Pattern Matching, and native HttpClient.</td>
+            </tr>
+            <tr>
+                <td>Backend Framework</td>
+                <td>Spring Boot</td>
+                <td>3.2.4</td>
+                <td>Enterprise dependency injection, transaction management, and robust REST ecosystem.</td>
+            </tr>
+            <tr>
+                <td>Security</td>
+                <td>Spring Security + JJWT</td>
+                <td>6.x / 0.11.5</td>
+                <td>Stateless JWT authentication filter chain, BCrypt password hashing, role-based guards.</td>
+            </tr>
+            <tr>
+                <td>Database & ORM</td>
+                <td>PostgreSQL + Spring Data JPA</td>
+                <td>Latest</td>
+                <td>ACID relational persistence, automated JPA Auditing (<code>@CreatedDate</code>), UUID primary keys.</td>
+            </tr>
+            <tr>
+                <td>Real-Time</td>
+                <td>Spring WebSocket + STOMP</td>
+                <td>3.2.4</td>
+                <td>Full-duplex publish-subscribe messaging broker over SockJS with <code>/topic</code> and <code>/app</code> routing.</td>
+            </tr>
+            <tr>
+                <td>AI Engine 1</td>
+                <td>Groq Cloud (Llama 3.1 8B)</td>
+                <td>REST API</td>
+                <td>Low-latency inference for snippet reviews and live chat bot responses.</td>
+            </tr>
+            <tr>
+                <td>AI Engine 2</td>
+                <td>Google Gemini 1.5 Pro</td>
+                <td>v1beta</td>
+                <td>Massive context window for multi-file repo reviews, interview generation, and roadmaps.</td>
+            </tr>
+            <tr>
+                <td>Frontend Core</td>
+                <td>React + Vite</td>
+                <td>19.2 / 8.1</td>
+                <td>Modern component architecture, custom hooks, lightning-fast HMR build tooling.</td>
+            </tr>
+            <tr>
+                <td>Code Editor</td>
+                <td>Monaco Editor</td>
+                <td>4.7.0</td>
+                <td>In-browser VS Code editing engine with syntax highlighting and live change tracking.</td>
+            </tr>
+            <tr>
+                <td>Styling & Animation</td>
+                <td>Tailwind CSS + Framer Motion</td>
+                <td>4.3 / 12.4</td>
+                <td>Responsive dark glassmorphism design and smooth page transition animations.</td>
+            </tr>
+            <tr>
+                <td>State & Networking</td>
+                <td>Axios + React Context</td>
+                <td>1.18.1</td>
+                <td>Dual-instance Axios with JWT request interceptors and automatic 401 token refresh eviction.</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <h2>3. Complete API Specifications</h2>
+    
+    <h3>3.1 Authentication (<code>/api/v1/auth</code>)</h3>
+    <ul>
+        <li><code>POST /api/v1/auth/register</code>: Registers user with <code>username</code>, <code>email</code>, <code>password</code>. Returns signed JWT and role.</li>
+        <li><code>POST /api/v1/auth/login</code>: Validates credentials and returns JWT token (24h lifespan).</li>
+    </ul>
+
+    <h3>3.2 AI Code Reviews (<code>/api/v1/reviews</code>)</h3>
+    <ul>
+        <li><code>POST /api/v1/reviews/analyze</code>: Body: <code>{ code, language, title }</code>. Runs Groq LLM, calculates security/performance scores, saves <code>Review</code> & <code>ReviewHistory</code>.</li>
+        <li><code>GET /api/v1/reviews/history</code>: Fetches past code reviews belonging to authenticated user.</li>
+    </ul>
+
+    <h3>3.3 GitHub Integration (<code>/api/v1/github</code>)</h3>
+    <ul>
+        <li><code>POST /api/v1/github/connect</code>: Securely links user's GitHub Personal Access Token (PAT).</li>
+        <li><code>GET /api/v1/github/repos</code>: Calls GitHub API to list all user repositories.</li>
+        <li><code>POST /api/v1/github/analyze</code>: Downloads repository zipball stream, unpacks code files in-memory via <code>ZipUtils</code>, and dispatches to Gemini Pro for architectural synthesis.</li>
+    </ul>
+
+    <h3>3.4 Real-Time WebSockets (<code>/ws-collaboration</code>)</h3>
+    <ul>
+        <li><code>/app/collab/{roomId}/code</code>: Receives live code edits, broadcasts to <code>/topic/collab/{roomId}/code</code>.</li>
+        <li><code>/app/collab/{roomId}/chat</code>: Broadcasts room chat. Automatically triggers Groq LLM if <code>@AI</code> is tagged.</li>
+    </ul>
+
+    <h2>4. Frontend & Backend Integration Flow</h2>
+    <div class="qa-box">
+        <div class="qa-question">How does JWT Authentication & Token Lifecycle work between React and Spring Boot?</div>
+        <div class="qa-answer">
+            <ol>
+                <li>User inputs credentials in <code>Login.jsx</code>. The public Axios client <code>api.post('/auth/login')</code> is called.</li>
+                <li>Backend authenticates via <code>AuthenticationManager</code>, generates an HMAC-SHA256 token using <code>JwtService</code>, and returns it.</li>
+                <li>Frontend saves the token and user profile in <code>localStorage</code> and React <code>AuthContext</code>.</li>
+                <li>For subsequent requests, <code>apiPrivate</code> has an Axios <strong>Request Interceptor</strong> that reads the token and injects <code>Authorization: Bearer &lt;token&gt;</code> into the HTTP headers.</li>
+                <li>The Axios <strong>Response Interceptor</strong> monitors incoming responses: if a <code>401 Unauthorized</code> status occurs (expired token), it clears <code>localStorage</code> and redirects the user to <code>/login</code>.</li>
+                <li>In Spring Boot, <code>JwtAuthenticationFilter</code> intercepts the request before <code>UsernamePasswordAuthenticationFilter</code>, validates the token, extracts the email, builds <code>UsernamePasswordAuthenticationToken</code>, and populates <code>SecurityContextHolder</code>.</li>
+            </ol>
+        </div>
+    </div>
+
+    <h2>5. Top Technical Interview Questions & Answers</h2>
+
+    <div class="qa-box">
+        <div class="qa-question">Q1: Why did you implement a multi-model AI strategy instead of using just one provider?</div>
+        <div class="qa-answer">
+            "Different AI models excel at different operational profiles:
+            <ul>
+                <li><strong>Groq Cloud (Llama 3.1 8B Instant)</strong> delivers sub-500 millisecond response times due to specialized Language Processing Units (LPUs). This makes it ideal for single-file reviews and interactive <code>@AI</code> responses in live chat.</li>
+                <li><strong>Google Gemini 1.5 Pro</strong> features an ultra-large context window (1M+ tokens), which is required when ingesting an entire multi-file codebase or GitHub repository. Using Groq for an entire repository would exceed standard context limits, while using Gemini for quick single-file snippets would introduce higher latency."</li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="qa-box">
+        <div class="qa-question">Q2: How did you solve the echo loop problem in the collaborative Monaco editor?</div>
+        <div class="qa-answer">
+            "In real-time multi-cursor collaboration, when User A writes code, the editor emits an update to the WebSocket broker. The broker broadcasts the update to all room subscribers, including User A. If User A unconditionally updates their editor state, it creates cursor jumps, text duplication, and infinite feedback loops.
+            <br><br>
+            <strong>Solution</strong>: We implemented client-side origin tagging:
+            <ul>
+                <li>Each browser tab generates a unique client UUID on mount: <code>const clientId = useRef(uuidv4())</code>.</li>
+                <li>Outgoing code packets include: <code>{ roomId, content, language, senderId: clientId.current }</code>.</li>
+                <li>Upon receiving a broadcast from <code>/topic/collab/{roomId}/code</code>, the client checks:
+                <br><code>if (message.senderId !== clientId.current) { setCode(message.content); }</code></li>
+            </ul>
+            This guarantees zero-echo typing for the author while providing instantaneous updates to all other peers."
+        </div>
+    </div>
+
+    <div class="qa-box">
+        <div class="qa-question">Q3: How are repository ZIP files processed without exhausting server memory or disk storage?</div>
+        <div class="qa-answer">
+            "Instead of writing incoming archives to the server's local file system (which introduces disk I/O bottlenecks and temporary file cleanup bugs), our <code>ZipUtils</code> class processes byte streams directly in memory using Java's <code>ZipInputStream</code>.
+            <br><br>
+            As each <code>ZipEntry</code> is read, we apply heuristic filtering to skip build artifacts, dependencies, and version control directories (e.g., <code>.git</code>, <code>node_modules</code>, <code>target</code>, <code>dist</code>, <code>.idea</code>). Only recognized source code extensions are buffered and assembled into our architectural evaluation prompt."
+        </div>
+    </div>
+
+    <h2>6. Core Production Code Snippets</h2>
+
+    <h3>1. Spring Security JWT Authentication Filter</h3>
+    <pre><code>package com.codementor.ai.security;
+
+import jakarta.servlet.FilterChain;
+import jakarta.servlet.ServletException;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
+import lombok.RequiredArgsConstructor;
+import org.springframework.lang.NonNull;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
+import org.springframework.stereotype.Component;
+import org.springframework.web.filter.OncePerRequestFilter;
+import java.io.IOException;
+
+@Component
+@RequiredArgsConstructor
+public class JwtAuthenticationFilter extends OncePerRequestFilter {
+
+    private final JwtService jwtService;
+    private final UserDetailsService userDetailsService;
+
+    @Override
+    protected void doFilterInternal(
+            @NonNull HttpServletRequest request,
+            @NonNull HttpServletResponse response,
+            @NonNull FilterChain filterChain
+    ) throws ServletException, IOException {
+
+        final String authHeader = request.getHeader("Authorization");
+        if (authHeader == null || !authHeader.startsWith("Bearer ")) {
+            filterChain.doFilter(request, response);
+            return;
+        }
+
+        final String jwt = authHeader.substring(7);
+        final String userEmail = jwtService.extractUsername(jwt);
+
+        if (userEmail != null && SecurityContextHolder.getContext().getAuthentication() == null) {
+            UserDetails userDetails = this.userDetailsService.loadUserByUsername(userEmail);
+
+            if (jwtService.isTokenValid(jwt, userDetails)) {
+                UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(
+                        userDetails, null, userDetails.getAuthorities()
+                );
+                authToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
+                SecurityContextHolder.getContext().setAuthentication(authToken);
+            }
+        }
+        filterChain.doFilter(request, response);
+    }
+}</code></pre>
+
+    <h3>2. Real-Time Collaboration Controller with @AI Detection</h3>
+    <pre><code>package com.codementor.ai.controller;
+
+import com.codementor.ai.client.GroqClient;
+import com.codementor.ai.dto.ChatMessage;
+import com.codementor.ai.dto.CodeUpdateMessage;
+import lombok.RequiredArgsConstructor;
+import org.springframework.messaging.handler.annotation.DestinationVariable;
+import org.springframework.messaging.handler.annotation.MessageMapping;
+import org.springframework.messaging.handler.annotation.Payload;
+import org.springframework.messaging.simp.SimpMessagingTemplate;
+import org.springframework.stereotype.Controller;
+import java.time.LocalDateTime;
+
+@Controller
+@RequiredArgsConstructor
+public class CollaborationController {
+
+    private final SimpMessagingTemplate messagingTemplate;
+    private final GroqClient groqClient;
+
+    @MessageMapping("/collab/{roomId}/code")
+    public void handleCodeUpdate(@DestinationVariable String roomId, @Payload CodeUpdateMessage message) {
+        messagingTemplate.convertAndSend("/topic/collab/" + roomId + "/code", message);
+    }
+
+    @MessageMapping("/collab/{roomId}/chat")
+    public void handleChatMessage(@DestinationVariable String roomId, @Payload ChatMessage message) {
+        message.setTimestamp(LocalDateTime.now());
+        message.setAiResponse(false);
+        messagingTemplate.convertAndSend("/topic/collab/" + roomId + "/chat", message);
+
+        if (message.getContent() != null && message.getContent().contains("@AI")) {
+            String prompt = "You are an AI Code Mentor in a live room. " +
+                            message.getSenderName() + " asked: " + message.getContent();
+            try {
+                String aiResponse = groqClient.generateContent(prompt);
+                ChatMessage aiMessage = ChatMessage.builder()
+                        .roomId(roomId)
+                        .senderName("AI Mentor")
+                        .content(aiResponse)
+                        .timestamp(LocalDateTime.now())
+                        .isAiResponse(true)
+                        .build();
+                messagingTemplate.convertAndSend("/topic/collab/" + roomId + "/chat", aiMessage);
+            } catch (Exception e) {
+                System.err.println("AI Chat error: " + e.getMessage());
+            }
+        }
+    }
+}</code></pre>
+
+    <h3>3. Production Axios Interceptors (Client-Side)</h3>
+    <pre><code>import axios from 'axios';
+
+const BASE_URL = 'http://localhost:8080/api/v1';
+
+export const apiPrivate = axios.create({
+    baseURL: BASE_URL,
+    headers: { 'Content-Type': 'application/json' }
+});
+
+apiPrivate.interceptors.request.use(
+    (config) => {
+        const token = localStorage.getItem('token');
+        if (token) {
+            config.headers.Authorization = `Bearer ${token}`;
+        }
+        return config;
+    },
+    (error) => Promise.reject(error)
+);
+
+apiPrivate.interceptors.response.use(
+    (response) => response,
+    async (error) => {
+        const originalRequest = error.config;
+        if (error.response?.status === 401 && !originalRequest._retry) {
+            originalRequest._retry = true;
+            localStorage.removeItem('token');
+            localStorage.removeItem('user');
+            window.location.href = '/login';
+        }
+        return Promise.reject(error);
+    }
+);</code></pre>
+
+    <div class="tip-box">
+        <strong>PDF Export Tip:</strong> Click the <em>"Print / Save as PDF"</em> button at the top right, or press <code>Ctrl+P</code> (Windows) / <code>Cmd+P</code> (Mac), select <strong>"Save as PDF"</strong> as destination, and keep background graphics enabled for a clean, publication-ready PDF.
+    </div>
+</div>
+
+</body>
+</html>
