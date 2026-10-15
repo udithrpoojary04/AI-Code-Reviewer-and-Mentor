@@ -9,10 +9,13 @@ import org.springframework.web.multipart.MultipartFile;
 import java.util.Map;
 
 @Service
-@RequiredArgsConstructor
 public class ProjectUploadService {
 
     private final CodeReviewService codeReviewService;
+
+    public ProjectUploadService(CodeReviewService codeReviewService) {
+        this.codeReviewService = codeReviewService;
+    }
 
     public Review uploadAndAnalyze(MultipartFile file, String userEmail) throws Exception {
         if (file.isEmpty() || !file.getOriginalFilename().endsWith(".zip")) {

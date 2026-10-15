@@ -12,11 +12,15 @@ import java.util.List;
 import java.util.UUID;
 
 @Service
-@RequiredArgsConstructor
 public class BookmarkService {
 
     private final BookmarkRepository bookmarkRepository;
     private final UserRepository userRepository;
+
+    public BookmarkService(BookmarkRepository bookmarkRepository, UserRepository userRepository) {
+        this.bookmarkRepository = bookmarkRepository;
+        this.userRepository = userRepository;
+    }
 
     public List<Bookmark> getUserBookmarks(UUID userId) {
         return bookmarkRepository.findByUserIdOrderByCreatedAtDesc(userId);

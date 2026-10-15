@@ -19,13 +19,19 @@ import java.util.List;
 import java.util.Map;
 
 @Service
-@RequiredArgsConstructor
 public class GitHubService {
 
     private final GitHubAccountRepository gitHubAccountRepository;
     private final UserRepository userRepository;
     private final GitHubClient gitHubClient;
     private final CodeReviewService codeReviewService;
+
+    public GitHubService(GitHubAccountRepository gitHubAccountRepository, UserRepository userRepository, GitHubClient gitHubClient, CodeReviewService codeReviewService) {
+        this.gitHubAccountRepository = gitHubAccountRepository;
+        this.userRepository = userRepository;
+        this.gitHubClient = gitHubClient;
+        this.codeReviewService = codeReviewService;
+    }
 
     @Transactional
     public void connectAccount(GitHubConnectRequest request) {

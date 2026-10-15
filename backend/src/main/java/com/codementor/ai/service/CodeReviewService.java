@@ -15,13 +15,19 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 
 @Service
-@RequiredArgsConstructor
 public class CodeReviewService {
 
     private final GroqClient groqClient;
     private final ReviewRepository reviewRepository;
     private final ReviewHistoryRepository reviewHistoryRepository;
     private final UserRepository userRepository;
+
+    public CodeReviewService(GroqClient groqClient, ReviewRepository reviewRepository, ReviewHistoryRepository reviewHistoryRepository, UserRepository userRepository) {
+        this.groqClient = groqClient;
+        this.reviewRepository = reviewRepository;
+        this.reviewHistoryRepository = reviewHistoryRepository;
+        this.userRepository = userRepository;
+    }
 
     @Transactional
     public Review performReview(CodeReviewRequest request, String userEmail) {
@@ -75,6 +81,7 @@ public class CodeReviewService {
     }
 
     @Transactional
+    @SuppressWarnings("null")
     public Review analyzeProject(java.util.Map<String, String> files, String userEmail, String projectName) {
         User user = userRepository.findByEmail(userEmail)
                 .orElseThrow(() -> new IllegalArgumentException("User not found"));
